@@ -45,8 +45,8 @@ public class FlightTest {
         passengerRoster1.add(pass3);
         passengerRoster2 = new ArrayList<>();
         passengerRoster2.add(pass1);
-        bigPlane = new Plane(PlaneType.BOEING747, PlaneType.BOEING747.returnCapacity());
-        weePlane = new Plane(PlaneType.CESSNA172, PlaneType.BOEING747.returnCapacity());
+        bigPlane = new Plane(PlaneType.BOEING747, 306.0);
+        weePlane = new Plane(PlaneType.CESSNA172, 7.0);
         flight1 = new Flight(pilot, crew1, bigPlane, "XXX420", "Magaluf", "Prestwick", "1600 HOURS");
         flight2 = new Flight(pilot, crew2, weePlane, "XYZ69", "Bonkle", "Aberdeen", "2300 HOURS");
 
@@ -70,5 +70,16 @@ public class FlightTest {
         flight2.bookSeat(pass2);
         flight2.bookSeat(pass3);
         assertEquals(4, flight2.numOfBookedSeats());
+    }
+
+    @Test
+    public void canCalculateCrewBaggage(){
+        assertEquals(1.75, flight2.crewBaggageWeight(), 0);
+    }
+
+    @Test
+    public void canDeductWeight(){
+        flight2.bookSeat(pass1);
+        assertEquals(0.875, flight2.calculateRemainingBaggageAllowance(), 0);
     }
 }

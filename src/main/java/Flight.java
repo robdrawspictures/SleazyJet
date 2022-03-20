@@ -58,6 +58,14 @@ public class Flight {
         return depTime;
     }
 
+    public int getCrewSize(){
+        return cabinCrew.size();
+    }
+
+    public int getPassengerCount(){
+        return passengerManifest.size();
+    }
+
     public int numOfBookedSeats(){
         return 1 + this.cabinCrew.size() + this.passengerManifest.size();
     }
@@ -70,5 +78,24 @@ public class Flight {
         if(numOfBookedSeats() < this.plane.planeType.returnCapacity()) {
             this.passengerManifest.add(newBooking);
         }
+    }
+
+    public double crewBaggageWeight(){
+        double individualAllowance = this.plane.calculateIndividualBagAllowance();
+        int totalCrew = 1 + getCrewSize();
+        double crewBaggageWeight = individualAllowance * totalCrew;
+        return crewBaggageWeight;
+    }
+
+    public double passengerBaggageWeight(){
+        double passengerBaggageWeight = this.plane.calculateIndividualBagAllowance() * getPassengerCount();
+        return passengerBaggageWeight;
+    }
+
+    public double calculateRemainingBaggageAllowance(){
+        double crewBag = crewBaggageWeight();
+        double passBag = passengerBaggageWeight();
+        double totalConsumedWeight = crewBag + passBag;
+        return this.plane.calculateBaggageAllowance() - totalConsumedWeight;
     }
 }
