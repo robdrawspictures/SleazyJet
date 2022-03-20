@@ -47,24 +47,26 @@ public class FlightTest {
         passengerRoster2.add(pass1);
         bigPlane = new Plane(PlaneType.BOEING747, PlaneType.BOEING747.returnCapacity());
         weePlane = new Plane(PlaneType.CESSNA172, PlaneType.BOEING747.returnCapacity());
-        flight1 = new Flight(pilot, crew1, passengerRoster1, bigPlane, "XXX420", "Magaluf", "Prestwick", "1600 HOURS");
-        flight2 = new Flight(pilot, crew2, passengerRoster2, weePlane, "XYZ69", "Bonkle", "Aberdeen", "2300 HOURS");
+        flight1 = new Flight(pilot, crew1, bigPlane, "XXX420", "Magaluf", "Prestwick", "1600 HOURS");
+        flight2 = new Flight(pilot, crew2, weePlane, "XYZ69", "Bonkle", "Aberdeen", "2300 HOURS");
 
     }
 
     @Test
     public void canGetAvailableSeats(){
-        assertEquals(1, flight2.seatAvailability());
+        assertEquals(2, flight2.seatAvailability());
     }
 
     @Test
     public void canBookSeat(){
         flight2.bookSeat(pass2);
+        flight2.bookSeat(pass3);
         assertEquals(0, flight2.seatAvailability());
     }
 
     @Test
     public void cantOverBook(){
+        flight2.bookSeat(pass1);
         flight2.bookSeat(pass2);
         flight2.bookSeat(pass3);
         assertEquals(4, flight2.numOfBookedSeats());
