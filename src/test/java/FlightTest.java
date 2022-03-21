@@ -5,6 +5,7 @@ import people.crew.CrewType;
 import people.crew.Pilot;
 import people.passenger.Passenger;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -47,8 +48,8 @@ public class FlightTest {
         passengerRoster2.add(pass1);
         bigPlane = new Plane(PlaneType.BOEING747, 306.0);
         weePlane = new Plane(PlaneType.CESSNA172, 7.0);
-        flight1 = new Flight(pilot, crew1, bigPlane, "XXX420", "Magaluf", "Prestwick", "1600 HOURS");
-        flight2 = new Flight(pilot, crew2, weePlane, "XYZ69", "Bonkle", "Aberdeen", "2300 HOURS");
+        flight1 = new Flight(pilot, crew1, bigPlane, "XXX420", "Magaluf", "Prestwick", LocalDateTime.now());
+        flight2 = new Flight(pilot, crew2, weePlane, "XYZ69", "Bonkle", "Aberdeen", LocalDateTime.now());
 
     }
 
@@ -62,6 +63,8 @@ public class FlightTest {
         flight2.bookSeat(pass2);
         flight2.bookSeat(pass3);
         assertEquals(0, flight2.seatAvailability());
+        assertEquals(1, pass2.getSeatNo());
+        assertEquals("XYZ69", pass2.getFlight());
     }
 
     @Test
@@ -81,5 +84,17 @@ public class FlightTest {
     public void canDeductWeight(){
         flight2.bookSeat(pass1);
         assertEquals(0.875, flight2.calculateRemainingBaggageAllowance(), 0);
+    }
+
+    @Test
+    public void canAssignSeatNo(){
+        pass1.setSeatNo(1);
+        assertEquals(1, pass1.getSeatNo());
+    }
+
+    @Test
+    public void canAssignFlight(){
+        pass1.setFlight(flight1.getFlightNo());
+        assertEquals("XXX420", pass1.getFlight());
     }
 }

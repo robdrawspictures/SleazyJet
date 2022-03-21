@@ -3,6 +3,7 @@ import people.crew.Pilot;
 import people.passenger.Passenger;
 
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 public class Flight {
 
@@ -13,9 +14,9 @@ public class Flight {
     private String flightNo;
     private String destination;
     private String departure;
-    private String depTime;
+    private LocalDateTime depTime;
 
-    public Flight(Pilot pilot, ArrayList<CabinCrew> cabinCrew, Plane plane, String flightNo, String destination, String departure, String depTime) {
+    public Flight(Pilot pilot, ArrayList<CabinCrew> cabinCrew, Plane plane, String flightNo, String destination, String departure, LocalDateTime depTime) {
         this.pilot = pilot;
         this.cabinCrew = cabinCrew;
         this.passengerManifest = new ArrayList<>();
@@ -54,7 +55,7 @@ public class Flight {
         return departure;
     }
 
-    public String getDepTime() {
+    public LocalDateTime getDepTime() {
         return depTime;
     }
 
@@ -77,6 +78,8 @@ public class Flight {
     public void bookSeat(Passenger newBooking){
         if(numOfBookedSeats() < this.plane.planeType.returnCapacity()) {
             this.passengerManifest.add(newBooking);
+            newBooking.setFlight(this.flightNo);
+            newBooking.setSeatNo(1);
         }
     }
 
